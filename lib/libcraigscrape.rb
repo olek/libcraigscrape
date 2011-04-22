@@ -4,9 +4,9 @@
 #
 require 'rubygems'
 
-gem 'activesupport', '~> 2.3'
-gem 'hpricot',       '~> 0.8'
-gem 'htmlentities',  '~> 4.0.0'
+gem 'activesupport'
+gem 'hpricot'
+gem 'htmlentities'
 
 require 'net/http'
 require 'zlib'
