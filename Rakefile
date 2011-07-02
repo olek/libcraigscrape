@@ -41,6 +41,9 @@ SPEC =
     s.add_dependency 'htmlentities', '>= 4.0.0'
     s.add_dependency 'activesupport','>= 2.3.0', '< 3'
     s.add_dependency 'activerecord', '>= 2.3.0', '< 3'
+    s.add_dependency 'actionmailer', '>= 2.3.0', '< 3'
+    s.add_dependency 'kwalify', '>= 0.7.2'
+    s.add_dependency 'sqlite3'
   end
 
 desc "Run all the tests"
