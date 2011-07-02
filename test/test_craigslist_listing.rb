@@ -6,8 +6,8 @@ require File.dirname(__FILE__)+'/libcraigscrape_test_helpers'
 
 class CraigslistListingTest < Test::Unit::TestCase
   include LibcraigscrapeTestHelpers
-  
-  def test_listings_parse 
+
+  def test_listings_parse
     category = CraigScrape::Listings.new relative_uri_for('listing_samples/category_output.html')
     assert_equal 'index100.html', category.next_page_href
     assert_equal 100, category.posts.length
@@ -16,19 +16,19 @@ class CraigslistListingTest < Test::Unit::TestCase
       assert_equal 4, l.post_date.month
       assert_equal 18, l.post_date.day
     end
-    
+
     category2 = CraigScrape::Listings.new relative_uri_for('listing_samples/category_output_2.html')
     assert_equal 'index900.html', category2.next_page_href
     assert_equal 100, category2.posts.length
-    
+
     long_search = CraigScrape::Listings.new relative_uri_for('listing_samples/long_search_output.html')
     assert_equal '/search/rea?query=house&minAsk=min&maxAsk=max&bedrooms=&s=800', long_search.next_page_href
     assert_equal 100, long_search.posts.length
-    
+
     short_search = CraigScrape::Listings.new relative_uri_for('listing_samples/short_search_output.html')
     assert_equal nil, short_search.next_page_href
     assert_equal 93, short_search.posts.length
-    
+
     mia_fua_index8900_052109 = CraigScrape::Listings.new relative_uri_for('listing_samples/mia_fua_index8900.5.21.09.html')
     assert_equal 'index9000.html', mia_fua_index8900_052109.next_page_href
     assert_equal 100, mia_fua_index8900_052109.posts.length
@@ -36,13 +36,13 @@ class CraigslistListingTest < Test::Unit::TestCase
     # This actually happens quite a bit...
     mia_fua_index8900_052109.posts[0..13].each do |l|
       assert_equal 5, l.post_date.month
-      assert_equal 15, l.post_date.day     
+      assert_equal 15, l.post_date.day
     end
     mia_fua_index8900_052109.posts[14..99].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 14, l.post_date.day
     end
-    
+
     empty_listings = CraigScrape::Listings.new relative_uri_for('listing_samples/empty_listings.html')
     assert_equal nil, empty_listings.next_page_href
     assert_equal [], empty_listings.posts
@@ -52,12 +52,12 @@ class CraigslistListingTest < Test::Unit::TestCase
     # libcraigscrape is supposed to 'smart' when downloading postings that don't make 'sense' solely by looking at the listings.
     # I'm only seen this on occasion, but its annoying and craigslist seems to use a lot of approximations sometimes
     # The test page supplied is slightly adjusted to compensate for the lack of a web server when readng pages form the filesystem.
-    
+
     fortmyers_art_index500_060909 = CraigScrape::Listings.new relative_uri_for('listing_samples/fortmyers_art_index.060909/fortmyers_art_index500.060909.html')
     fortmyers_art_index500_060909.posts[0..12].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 16, l.post_date.day
-    end    
+    end
     fortmyers_art_index500_060909.posts[13..36].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 15, l.post_date.day
@@ -65,7 +65,7 @@ class CraigslistListingTest < Test::Unit::TestCase
     fortmyers_art_index500_060909.posts[37..41].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 14, l.post_date.day
-    end    
+    end
     fortmyers_art_index500_060909.posts[42..55].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 13, l.post_date.day
@@ -73,19 +73,19 @@ class CraigslistListingTest < Test::Unit::TestCase
     fortmyers_art_index500_060909.posts[56..65].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 12, l.post_date.day
-    end    
+    end
     fortmyers_art_index500_060909.posts[66..87].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 11, l.post_date.day
-    end    
+    end
     fortmyers_art_index500_060909.posts[88..94].each do |l|
       assert_equal 5, l.post_date.month
       assert_equal 10, l.post_date.day
-    end    
+    end
     assert_equal 4,  fortmyers_art_index500_060909.posts[95].post_date.month
     assert_equal 8,  fortmyers_art_index500_060909.posts[95].post_date.day
     assert_equal 2,  fortmyers_art_index500_060909.posts[96].post_date.month
-    assert_equal 27, fortmyers_art_index500_060909.posts[96].post_date.day   
+    assert_equal 27, fortmyers_art_index500_060909.posts[96].post_date.day
     assert_equal 2,  fortmyers_art_index500_060909.posts[97].post_date.month
     assert_equal 23, fortmyers_art_index500_060909.posts[97].post_date.day
     assert_equal 1,  fortmyers_art_index500_060909.posts[98].post_date.month
@@ -93,9 +93,9 @@ class CraigslistListingTest < Test::Unit::TestCase
     assert_equal 12, fortmyers_art_index500_060909.posts[99].post_date.month
     assert_equal 16, fortmyers_art_index500_060909.posts[99].post_date.day
 
-    # Now we'll do one of these elusive 'trailer' pages which don't seem to really make much sense. 
+    # Now we'll do one of these elusive 'trailer' pages which don't seem to really make much sense.
     # Best I can tell, it only comes after a page like the one tested just above
-    fortmyers_art_index600_060909 = CraigScrape::Listings.new relative_uri_for('listing_samples/fortmyers_art_index.060909/fortmyers_art_index600.060909.html')   
+    fortmyers_art_index600_060909 = CraigScrape::Listings.new relative_uri_for('listing_samples/fortmyers_art_index.060909/fortmyers_art_index600.060909.html')
     assert_equal "Husqvarna Viking Rose: Used Embroidery/Sewing Machine.  Instruction book, Video, Embroidery Unit, 4\" 4\" hoop, designs, tool box with accessories including 8 feet (A, B, C, D, E, J, P, U and zipper foot). $400.00 Firm. (941) 347-8014 or (352)638-4707.", fortmyers_art_index600_060909.posts[0].contents
     assert_equal "Husqvarna Viking Rose: Used Embroidery/Sewing Machine.  Instruction book, Video, Embroidery Unit, 4\" 4\" hoop, designs, tool box with accessories including 8 feet (A, B, C, D, E, J, P, U and zipper foot). $400.00 Firm. (941) 347-8014 or (352)638-4707.", fortmyers_art_index600_060909.posts[0].contents_as_plain
     assert_equal false, fortmyers_art_index600_060909.posts[0].deleted_by_author?
@@ -121,7 +121,7 @@ class CraigslistListingTest < Test::Unit::TestCase
     assert_equal "art & crafts", fortmyers_art_index600_060909.posts[0].section
     assert_equal false, fortmyers_art_index600_060909.posts[0].system_post?
     assert_equal "Husqvarna Viking Rose Embroidery-Sewing Machine", fortmyers_art_index600_060909.posts[0].title
-    
+
     assert_equal "Multiple artists' moving sale. Lots of unusual items including art, art supplies, ceramics and ceramic glazes, furniture, clothes, books, electronics, cd's and much more. Also for sale is alot of restaurant equpment.\r<br>\n\r<br>\nSale to be held at 3570 Bayshore Dr. next to Bayshore Coffee Co.\r<br>\n\r<br>\nSaturday 8:00 a.m. until 2:00 Rain or shine.\r<br>", fortmyers_art_index600_060909.posts[1].contents
     assert_equal "Multiple artists' moving sale. Lots of unusual items including art, art supplies, ceramics and ceramic glazes, furniture, clothes, books, electronics, cd's and much more. Also for sale is alot of restaurant equpment.\r\n\r\nSale to be held at 3570 Bayshore Dr. next to Bayshore Coffee Co.\r\n\r\nSaturday 8:00 a.m. until 2:00 Rain or shine.\r", fortmyers_art_index600_060909.posts[1].contents_as_plain
     assert_equal false, fortmyers_art_index600_060909.posts[1].deleted_by_author?
@@ -147,7 +147,7 @@ class CraigslistListingTest < Test::Unit::TestCase
     assert_equal "art & crafts", fortmyers_art_index600_060909.posts[1].section
     assert_equal false, fortmyers_art_index600_060909.posts[1].system_post?
     assert_equal "ARTISTS' MOVING SALE-BAYSHORE", fortmyers_art_index600_060909.posts[1].title
-    
+
     assert_equal "Tapestry sewing machine and embroidery arm luggage for Viking designer sewing machine.  Two years old in excellent condition.", fortmyers_art_index600_060909.posts[2].contents
     assert_equal "Tapestry sewing machine and embroidery arm luggage for Viking designer sewing machine.  Two years old in excellent condition.", fortmyers_art_index600_060909.posts[2].contents_as_plain
     assert_equal false, fortmyers_art_index600_060909.posts[2].deleted_by_author?
@@ -173,7 +173,7 @@ class CraigslistListingTest < Test::Unit::TestCase
     assert_equal "art & crafts", fortmyers_art_index600_060909.posts[2].section
     assert_equal false, fortmyers_art_index600_060909.posts[2].system_post?
     assert_equal "tapestry sewing machine and embroidery arm luggage", fortmyers_art_index600_060909.posts[2].title
-    
+
     assert_equal "Gorgeous and one of a kind!   Museum-collected artist Jay von Koffler's Aurora Series - cast glass nude sculpture - Aurora.  Mounted on marble and enhanced with bronze beak.   \r<br>\n\r<br>\nDimensions:  30x16x6\r<br>\nCall for appointment for studio viewing - 239.595.1793", fortmyers_art_index600_060909.posts[3].contents
     assert_equal "Gorgeous and one of a kind!   Museum-collected artist Jay von Koffler's Aurora Series - cast glass nude sculpture - Aurora.  Mounted on marble and enhanced with bronze beak.   \r\n\r\nDimensions:  30x16x6\r\nCall for appointment for studio viewing - 239.595.1793", fortmyers_art_index600_060909.posts[3].contents_as_plain
     assert_equal false, fortmyers_art_index600_060909.posts[3].deleted_by_author?
@@ -200,14 +200,14 @@ class CraigslistListingTest < Test::Unit::TestCase
     assert_equal false, fortmyers_art_index600_060909.posts[3].system_post?
     assert_equal "Cast Glass Sculpture - Aurora", fortmyers_art_index600_060909.posts[3].title
   end
-  
+
   def test_nasty_search_listings
     miami_search_sss_rack900_061809 = CraigScrape::Listings.new relative_uri_for('listing_samples/miami_search_sss_rack.6.18.09/miami_search_sss_rack900.6.18.09.html')
     assert_equal '/search/sss?query=rack&s=1000', miami_search_sss_rack900_061809.next_page_href
-     
+
     miami_search_sss_rack1000_061809 = CraigScrape::Listings.new relative_uri_for('listing_samples/miami_search_sss_rack.6.18.09/miami_search_sss_rack1000.6.18.09.html')
     assert_equal nil, miami_search_sss_rack1000_061809.next_page_href
-          
+
     mia_search_kitten031510 = CraigScrape::Listings.new relative_uri_for('listing_samples/mia_search_kitten.3.15.10.html')
     assert_equal "Adopt a 7 month on kitten- $75", mia_search_kitten031510.posts[0].label
     assert_equal [0, 0, 0, 15, 3, 2010, 1, 74, true, "EDT"], mia_search_kitten031510.posts[0].post_date.to_a
@@ -256,7 +256,7 @@ class CraigslistListingTest < Test::Unit::TestCase
 
   def test_new_listing_span051710_labels
     new_listing_span051710 = CraigScrape::Listings.new relative_uri_for('listing_samples/new_listing_span.4.17.10.html')
-    
+
     assert_equal " Art Directly for Sale from the Artist", new_listing_span051710.posts[0].label
     assert_equal "Wall Art, Contemporary Abstract by Vista Gallories", new_listing_span051710.posts[1].label
     assert_equal "Gary George \"Darice\" Giclee Semi Nude Woman COA NEW", new_listing_span051710.posts[2].label
@@ -358,5 +358,5 @@ class CraigslistListingTest < Test::Unit::TestCase
     assert_equal "Wyland Oil Painting", new_listing_span051710.posts[98].label
     assert_equal "Denim Fabric Blocks for Crafts", new_listing_span051710.posts[99].label
   end
-  
+
 end

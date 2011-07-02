@@ -23,7 +23,7 @@ mapping:
       mapping:
          "adapter":  { type: str, required: yes }
          "dbfile":   { type: str, required: no }
-         "host":  	{ type: str, required: no }
+         "host":    { type: str, required: no }
          "username": { type: str, required: no }
          "password": { type: str, required: no }
          "socket":   { type: str, required: no }
@@ -48,7 +48,7 @@ mapping:
               "summary_or_full_post_has_no": {type: seq, required: no, sequence: [ {type: str, unique: yes} ]}
               "location_has":                {type: seq, required: no, sequence: [ {type: str, unique: yes} ]}
               "location_has_no":             {type: seq, required: no, sequence: [ {type: str, unique: yes} ]}
-              "sites":   
+              "sites":
                  type: seq
                  required: yes
                  sequence:
@@ -60,7 +60,7 @@ mapping:
                  sequence:
                    - type: str
                      unique: yes
-              "starting":  
+              "starting":
                  type: str
                  required: no
                  pattern: /^[\d]{1,2}\/[\d]{1,2}\/(?:[\d]{2}|[\d]{4})$/

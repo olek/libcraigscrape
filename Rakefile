@@ -35,7 +35,7 @@ SPEC =
     s.homepage = 'http://www.derosetechnologies.com/community/libcraigscrape'
     s.rubyforge_project = 'libcraigwatch'
     s.files = PKG_FILES
-    s.require_paths = ["lib"] 
+    s.require_paths = ["lib"]
     s.test_files = FileList['test/test_*.rb']
     s.add_dependency 'hpricot',      '> 0.8'
     s.add_dependency 'htmlentities', '>= 4.0.0'
@@ -90,30 +90,30 @@ namespace :code_tests do
     flog = Flog.new
     flog.flog_files ['lib']
     threshold = 105
-  
+
     bad_methods = flog.totals.select do |name, score|
        score > threshold
     end
-  
+
     bad_methods.sort { |a,b| a[1] <=> b[1] }.each do |name, score|
       puts "%8.1f: %s" % [score, name]
     end
-  
+
     puts "WARNING : #{bad_methods.size} methods have a flog complexity > #{threshold}" unless bad_methods.empty?
   end
-  
+
   desc "Analyze for code duplication"
     require 'flay'
     task :flay do
     threshold = 25
     flay = Flay.new({:fuzzy => false, :verbose => false, :mass => threshold})
     flay.process(*Flay.expand_dirs_to_files(['lib']))
-  
+
     flay.report
-  
+
     raise "#{flay.masses.size} chunks of code have a duplicate mass > #{threshold}" unless flay.masses.empty?
   end
-  
+
   RoodiTask.new 'roodi', ['lib/*.rb'], 'roodi.yml'
 end
 

@@ -5,11 +5,11 @@ CRAIGSLIST REPORTER
    <% summary[:postings].collect do |post| -%>
       <% if summary[:postings].length > 0 %>
       <%='%s : %s %s %s %s' % [
-			post.post_date.strftime('%b %d'),
-			post.label,
-			(post.location) ? " (#{post.location})" : '',
-			(post.has_pic_or_img?) ? ' [img]': '',
-			post.url
+            post.post_date.strftime('%b %d'),
+            post.label,
+            (post.location) ? " (#{post.location})" : '',
+            (post.has_pic_or_img?) ? ' [img]': '',
+            post.url
       ] -%>
       <% else %>
       No new postings were found, which matched the search criteria.

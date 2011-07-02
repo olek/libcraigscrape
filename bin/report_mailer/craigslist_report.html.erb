@@ -4,12 +4,12 @@
       <% if summary[:postings].length > 0 %>
          <%summary[:postings].each do |post|%>
             <%='<p>%s <a href="%s">%s -</a>%s%s</p>' % [
-   			h(post.post_date.strftime('%b %d')),
-   			post.url,
-   			h(post.label),
-   			(post.location) ? '<font size="-1"> (%s)</font>' % h(post.location) : '',
-   			(post.has_pic_or_img?) ? ' <span style="color: orange"> img</span>': ''
-         	] -%>
+            h(post.post_date.strftime('%b %d')),
+            post.url,
+            h(post.label),
+            (post.location) ? '<font size="-1"> (%s)</font>' % h(post.location) : '',
+            (post.has_pic_or_img?) ? ' <span style="color: orange"> img</span>': ''
+            ] -%>
          <% end %>
       <% else %>
          <p><i>No new postings were found, which matched the search criteria.</i></p>

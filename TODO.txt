@@ -1,8 +1,8 @@
 ------------------------------------------
 * There's a bug where the rdoc generates Crauigscrape weird in the package. It has to do with this not being the case in the gem:
-	  * # NOTE: If you don't put libcraigscrape.rb at the beginning, the rdoc ends up looking a little screwy
-      rdoc.rdoc_files.add RDOC_FILES+Dir.glob('lib/*.rb').sort_by{|a,b| (a == 'lib/libcraigscrape.rb') ? -1 : 0 } 
-		* In fact, we might want to move all those requires up to the top of libcraigscrape again  once we fix this... 
+    * # NOTE: If you don't put libcraigscrape.rb at the beginning, the rdoc ends up looking a little screwy
+      rdoc.rdoc_files.add RDOC_FILES+Dir.glob('lib/*.rb').sort_by{|a,b| (a == 'lib/libcraigscrape.rb') ? -1 : 0 }
+    * In fact, we might want to move all those requires up to the top of libcraigscrape again  once we fix this...
 
 * Add craigwatch filter object tests....
 
@@ -11,18 +11,18 @@ Possible features?:
  * FEATURE: Rather then 'search/sss?query=artist+needed', maybe use CraigScrape::search_for('artist needed')
  * FEATURE: Support for post submissions?
  * FEATURE: Add the craigwatch_debug feature - and monitor it... (There's a TODO in there...)
-	* Shows the current progress...? (pages fetched, objects in caches..) 
+  * Shows the current progress...? (pages fetched, objects in caches..)
  * FEATURE: Get the YAML template features working in the chris_report.yml
- 	* should be pretty easy - I think we just add to the schema
- 	* Might have to do this yourself with a search_templates section and an search ':include' thing
-   * Should we have 'defined searches' in the yaml and then apply these defitions to a report? 
- 		* It would be nice to have one search definition for 'art I want' and then allow these
-	 	* to be referenced in separate reports for 'art in florida', 'art in nyc', 'art everywhere esle' ..
-	 	* The other  thing I'd like to do though is have "New art watch/Classic Artwatch" type reports that look
-	 	* separate - but that dont cause the crawl to happen twice. Just once with two reports per crawl..
+  * should be pretty easy - I think we just add to the schema
+  * Might have to do this yourself with a search_templates section and an search ':include' thing
+   * Should we have 'defined searches' in the yaml and then apply these defitions to a report?
+    * It would be nice to have one search definition for 'art I want' and then allow these
+    * to be referenced in separate reports for 'art in florida', 'art in nyc', 'art everywhere esle' ..
+    * The other  thing I'd like to do though is have "New art watch/Classic Artwatch" type reports that look
+    * separate - but that dont cause the crawl to happen twice. Just once with two reports per crawl..
  * FEATURE: Page-caching? Maybe? Any interest? might be nice for geocaching...
  * FEATURE: Stats in the email: bytes transferred, generation time, urls scrapped, posts scrapped
- 
+
  * FEATURE: We might want to parse the sub-locations in the geo-location code... (so for miami: brw/mia/wpb)
 
 ------------------------------------------

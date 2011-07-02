@@ -4,24 +4,24 @@
 - Minor adjustments to craigwatch to fix deprecation warnings in new ActiveRecord and ActionMailer gems
 - Added gem version specifiers to the Gem spec and to the require statements
 - Moved repo to github
-- Fixed an esoteric bug in craigwatch, affecting the last scraped post in a listing when that post was 'flagged for removal'.  
+- Fixed an esoteric bug in craigwatch, affecting the last scraped post in a listing when that post was 'flagged for removal'.
 - Took all those extra package-building tasts out of the Rakefile since this is 2010 and we only party with gemfiles
 - Ruby 1.9 compatibility adjustments
 
 === Release 0.8.4 (Sep 6, 2010)
 - Someone found a way to screw up hpricot's to_s method (posting1938291834-090610.html) and fixed by added html_source to the craigslist Scraper object, which returns the body of the post without passing it through hpricot. Its a better way to go anyways, and re-wrote a couple incidentals to use the html_source method...
-- Adjusted the test cases a bit, since the user bodies being returned have less cleanup in their output than they had prior    
+- Adjusted the test cases a bit, since the user bodies being returned have less cleanup in their output than they had prior
 
 === Release 0.8.3 (August 2, 2010)
 - Someone was posting really bad html that was screwing up Hpricot. Such is to be expected when you're soliciting html from the general public I suppose. Added test_bugs_found061710 posting test, and fixed by stripping out the user body before parsing with Hpricot.
-- Added a MaxRedirectError and corresponding maximum_redirects_per_request cattr for the Craigscrape objects. This fixed a weird bug where craigslist was sending us in redirect circles around 06/10 
+- Added a MaxRedirectError and corresponding maximum_redirects_per_request cattr for the Craigscrape objects. This fixed a weird bug where craigslist was sending us in redirect circles around 06/10
 
 === Release 0.8.2 (April 17, 2010)
 - Found another odd parsing bug. Scrape sample is in 'listing_samples/mia_search_kitten.3.15.10.html', Adjusted CraigScrape::Listings::HEADER_DATE to fix.
 - Craigslist started added <span> tags in its post summaries. Fixed. See sample in test_new_listing_span051710
 
 === Release 0.8.1 (Feb 10, 2010)
-- Found an odd parsing bug occured for the first time today. Scrape sample is in 'listing_samples/mia_sss_kittens2.10.10.html', Adjusted CraigScrape::Listings::LABEL to fix. 
+- Found an odd parsing bug occured for the first time today. Scrape sample is in 'listing_samples/mia_sss_kittens2.10.10.html', Adjusted CraigScrape::Listings::LABEL to fix.
 - Switched to require "active_support" per the deprecation notices
 - Little adjustments to fix the rdoc readibility
 
@@ -76,7 +76,7 @@
 - Adjusted the examples in the readme, added a "require 'rubygems'" to the top of the listing so that they would actually work if you tried to run them verbatim (Thanks J T!)
 - Restructured some of the parsing to be less leinient when scraped values aren't matching their regexp's in the PostSummary
 - It seems like craigslist returns a 404 on pages that exist, for no good reason on occasion. Added a retry mechanism that wont take no for an answer, unless we get a defineable number of them in a row
-- Added CraigScrape cattr_accessors : retries_on_fetch_fail, sleep_between_fetch_retries . 
+- Added CraigScrape cattr_accessors : retries_on_fetch_fail, sleep_between_fetch_retries .
 - Adjusted craigwatch to not commit any database changes until the notification email goes out. This way if there's an error, the user wont miss any results on a re-run
 - Added a FetchError for http requests that don't return 200 or redirect...
 - Adjusted craigwatch to use scrape_until instead of scrape_since, this new approach cuts down on the url fetching by assuming that if we come across something we've already tracked, we dont need to keep going any further. NOTE: We still can't use a 'last_scraped_url' on the TrackedSearch model b/c sometimes posts get deleted.

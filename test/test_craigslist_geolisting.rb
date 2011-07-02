@@ -6,13 +6,13 @@ require File.dirname(__FILE__)+'/libcraigscrape_test_helpers'
 
 class CraigslistGeolistingTest < Test::Unit::TestCase
   include LibcraigscrapeTestHelpers
-  
+
   def test_pukes
     assert_raise(CraigScrape::Scraper::ParseError) do
       CraigScrape::GeoListings.new( relative_uri_for('google.html') ).sites
     end
   end
-  
+
   def test_geo_listings
     geo_listing_us070209 = CraigScrape::GeoListings.new relative_uri_for(
       'geolisting_samples/geo_listing_us070209.html'
@@ -345,10 +345,10 @@ class CraigslistGeolistingTest < Test::Unit::TestCase
     assert_equal "youngstown.craigslist.org", geo_listing_us070209.sites["youngstown"]
     assert_equal "yubasutter.craigslist.org", geo_listing_us070209.sites["yuba-sutter"]
     assert_equal "yuma.craigslist.org", geo_listing_us070209.sites["yuma"]
-    
+
     geo_listing_cn070209 = CraigScrape::GeoListings.new relative_uri_for(
       'geolisting_samples/geo_listing_cn070209.html'
-    )     
+    )
     assert_equal "china", geo_listing_cn070209.location
     assert_equal 6, geo_listing_cn070209.sites.length
     assert_equal "beijing.craigslist.com.cn", geo_listing_cn070209.sites["beijing"]
@@ -357,10 +357,10 @@ class CraigslistGeolistingTest < Test::Unit::TestCase
     assert_equal "hongkong.craigslist.org", geo_listing_cn070209.sites["hong kong"]
     assert_equal "shanghai.craigslist.com.cn", geo_listing_cn070209.sites["shanghai"]
     assert_equal "shenzhen.craigslist.org", geo_listing_cn070209.sites["shenzhen"]
-    
+
     geo_listing_ca070209 = CraigScrape::GeoListings.new relative_uri_for(
       'geolisting_samples/geo_listing_ca070209.html'
-    )     
+    )
     assert_equal "canada", geo_listing_ca070209.location
     assert_equal 47, geo_listing_ca070209.sites.length
     assert_equal "barrie.craigslist.ca", geo_listing_ca070209.sites["barrie"]
@@ -410,28 +410,28 @@ class CraigslistGeolistingTest < Test::Unit::TestCase
     assert_equal "whistler.craigslist.ca", geo_listing_ca070209.sites["whistler, BC"]
     assert_equal "windsor.craigslist.ca", geo_listing_ca070209.sites["windsor"]
     assert_equal "winnipeg.craigslist.ca", geo_listing_ca070209.sites["winnipeg"]
-    
+
     geo_listing_ca_sk07020 = CraigScrape::GeoListings.new relative_uri_for(
       'geolisting_samples/geo_listing_ca_sk070209.html'
-    )     
+    )
     assert_equal "canada", geo_listing_ca_sk07020.location
-    assert_equal( 
-      { "saskatoon" => "saskatoon.craigslist.ca", "regina" => "regina.craigslist.ca" }, 
+    assert_equal(
+      { "saskatoon" => "saskatoon.craigslist.ca", "regina" => "regina.craigslist.ca" },
       geo_listing_ca_sk07020.sites
     )
   end
-  
+
   def test_sites_in_path
     # This was really tough to test, and in the end, I don't know just how useful this really is...
     hier_dir = relative_uri_for 'geolisting_samples/hierarchy_test071009/'
-        
+
     %w(
-      us/fl/miami /us/fl/miami/ us/fl/miami/ /us/fl/miami us/fl/miami/nonsense 
+      us/fl/miami /us/fl/miami/ us/fl/miami/ /us/fl/miami us/fl/miami/nonsense
       us/fl/miami/nonsense/more-nonsense us/fl/miami/south\ florida
     ).each do |path|
       assert_equal ["miami.craigslist.org"], CraigScrape::GeoListings.sites_in_path( path, hier_dir )
     end
-    
+
     %w( us/fl /us/fl us/fl/ /us/fl/ ).each do |path|
       assert_equal(
         %w(
@@ -441,20 +441,20 @@ class CraigslistGeolistingTest < Test::Unit::TestCase
         CraigScrape::GeoListings.sites_in_path( path, hier_dir )
       )
     end
-    
+
     # This tests those escaped funky paths. I *think* this file-based test is actually indicative
     # that the http-retrieval version works as well;
     us_fl_mia_ftmeyers = CraigScrape::GeoListings.sites_in_path(
       "us/fl/ft myers \\/ SW florida", hier_dir
     )
     assert_equal ["fortmyers.craigslist.org"], us_fl_mia_ftmeyers
-    
+
     # make sure we puke on obvious bad-stuff. I *think* this file-based test is actually indicative
     # that the http-retrieval version works as well:
     assert_raise(CraigScrape::GeoListings::BadGeoListingPath) do
       CraigScrape::GeoListings.sites_in_path "us/fl/nonexist", hier_dir
     end
-    
+
     assert_raise(CraigScrape::GeoListings::BadGeoListingPath) do
       # You'll notice that we could actually guess a decent match, but we wont :
       CraigScrape::GeoListings.sites_in_path "us/fl/miami/nonexist", hier_dir
@@ -465,16 +465,16 @@ class CraigslistGeolistingTest < Test::Unit::TestCase
     hier_dir = relative_uri_for 'geolisting_samples/hierarchy_test071009/'
 
     assert_equal(
-      %w(miami.craigslist.org), 
-      CraigScrape::GeoListings.find_sites( 
-        ["us/fl/south florida","+ us/fl/south florida", "-newyork.craigslist.org"], 
+      %w(miami.craigslist.org),
+      CraigScrape::GeoListings.find_sites(
+        ["us/fl/south florida","+ us/fl/south florida", "-newyork.craigslist.org"],
         hier_dir
       )
     )
-    
+
     assert_equal(
       %w(
-        jacksonville panamacity orlando fortmyers keys tallahassee ocala gainesville tampa 
+        jacksonville panamacity orlando fortmyers keys tallahassee ocala gainesville tampa
         pensacola daytona treasure sarasota staugustine spacecoast lakeland newyork
       ).collect{|p| "#{p}.craigslist.org"},
       CraigScrape::GeoListings.find_sites( ["us/fl","-us/fl/miami", "+ newyork.craigslist.org"], hier_dir)
@@ -482,40 +482,40 @@ class CraigslistGeolistingTest < Test::Unit::TestCase
 
     assert_equal(
       %w(
-      westmd fortcollins charleston fayetteville dallas mendocino wichita valdosta terrahaute rockford erie 
-      decatur cedarrapids stillwater collegestation charlestonwv albany sacramento houston kalamazoo fortsmith 
+      westmd fortcollins charleston fayetteville dallas mendocino wichita valdosta terrahaute rockford erie
+      decatur cedarrapids stillwater collegestation charlestonwv albany sacramento houston kalamazoo fortsmith
       maine minneapolis stockton pennstate bend grandisland palmsprings nmi waterloo topeka eastnc greenbay york
-      utica stgeorge oklahomacity grandrapids eastidaho lancaster gulfport sandiego reading kpr fresno iowacity 
-      chicago tuscaloosa smd monterey yubasutter victoriatx sd knoxville gadsden jonesboro ksu youngstown toledo 
-      lascruces annarbor danville delaware parkersburg appleton stcloud richmond muskegon jerseyshore redding 
-      ithaca hartford evansville corpuschristi binghamton chico modesto lynchburg hattiesburg morgantown 
-      harrisonburg lubbock carbondale florencesc imperial wenatchee semo savannah prescott lacrosse longisland 
-      huntsville santabarbara janesville mankato santafe pullman louisville lexington brunswick duluth columbus 
-      hudsonvalley pittsburgh wheeling westky waco shreveport eastoregon corvallis winstonsalem denver 
-      tippecanoe newhaven shoals wv greenville lansing detroit athensohio easttexas sanantonio raleigh phoenix 
-      honolulu inlandempire pueblo chattanooga lawton worcester twinfalls roseburg roanoke fredericksburg 
-      annapolis asheville seattle scranton quadcities oregoncoast stlouis newyork mobile atlanta visalia 
-      clarksville providence kansascity galveston madison bham harrisburg muncie bloomington anchorage ventura 
-      up tricities rockies elpaso slo indianapolis fayar columbusga bellingham abilene wichitafalls boston 
-      mcallen bn sierravista lasvegas sanmarcos nwct farmington mansfield jacksontn bgky altoona eugene 
-      lafayette boone odessa spokane norfolk hickory burlington nashville lawrence hiltonhead elmira westernmass 
-      southjersey myrtlebeach dothan goldcountry lincoln martinsburg dubuque brownsville washingtondc tucson 
-      columbiamo jxn yakima sheboygan olympic humboldt newjersey cosprings springfield beaumont macon eauclaire 
-      batonrouge buffalo mohave wilmington rochester sfbay northmiss bakersfield neworleans catskills wausau 
-      akroncanton cnj merced chambana flint capecod nh yuma tulsa charlottesville easternshore desmoines 
-      athensga austin newlondon outerbanks fortwayne dayton wyoming watertown provo medford texarkana cleveland 
-      memphis amarillo limaohio augusta flagstaff jackson plattsburgh peoria skagit saltlakecity saginaw 
-      portland syracuse swmi baltimore monroe littlerock boise laredo boulder philadelphia sandusky salem rmn 
-      montgomery blacksburg centralmich logan albuquerque losangeles poconos westslope southbend siouxcity reno 
-      porthuron greensboro orangecounty fargo ogden charlotte allentown joplin chautauqua lakecharles omaha 
-      springfieldil roswell montana killeen milwaukee nd williamsport columbia racine southcoast ames huntington 
+      utica stgeorge oklahomacity grandrapids eastidaho lancaster gulfport sandiego reading kpr fresno iowacity
+      chicago tuscaloosa smd monterey yubasutter victoriatx sd knoxville gadsden jonesboro ksu youngstown toledo
+      lascruces annarbor danville delaware parkersburg appleton stcloud richmond muskegon jerseyshore redding
+      ithaca hartford evansville corpuschristi binghamton chico modesto lynchburg hattiesburg morgantown
+      harrisonburg lubbock carbondale florencesc imperial wenatchee semo savannah prescott lacrosse longisland
+      huntsville santabarbara janesville mankato santafe pullman louisville lexington brunswick duluth columbus
+      hudsonvalley pittsburgh wheeling westky waco shreveport eastoregon corvallis winstonsalem denver
+      tippecanoe newhaven shoals wv greenville lansing detroit athensohio easttexas sanantonio raleigh phoenix
+      honolulu inlandempire pueblo chattanooga lawton worcester twinfalls roseburg roanoke fredericksburg
+      annapolis asheville seattle scranton quadcities oregoncoast stlouis newyork mobile atlanta visalia
+      clarksville providence kansascity galveston madison bham harrisburg muncie bloomington anchorage ventura
+      up tricities rockies elpaso slo indianapolis fayar columbusga bellingham abilene wichitafalls boston
+      mcallen bn sierravista lasvegas sanmarcos nwct farmington mansfield jacksontn bgky altoona eugene
+      lafayette boone odessa spokane norfolk hickory burlington nashville lawrence hiltonhead elmira westernmass
+      southjersey myrtlebeach dothan goldcountry lincoln martinsburg dubuque brownsville washingtondc tucson
+      columbiamo jxn yakima sheboygan olympic humboldt newjersey cosprings springfield beaumont macon eauclaire
+      batonrouge buffalo mohave wilmington rochester sfbay northmiss bakersfield neworleans catskills wausau
+      akroncanton cnj merced chambana flint capecod nh yuma tulsa charlottesville easternshore desmoines
+      athensga austin newlondon outerbanks fortwayne dayton wyoming watertown provo medford texarkana cleveland
+      memphis amarillo limaohio augusta flagstaff jackson plattsburgh peoria skagit saltlakecity saginaw
+      portland syracuse swmi baltimore monroe littlerock boise laredo boulder philadelphia sandusky salem rmn
+      montgomery blacksburg centralmich logan albuquerque losangeles poconos westslope southbend siouxcity reno
+      porthuron greensboro orangecounty fargo ogden charlotte allentown joplin chautauqua lakecharles omaha
+      springfieldil roswell montana killeen milwaukee nd williamsport columbia racine southcoast ames huntington
       cincinnati auburn miami
       ).collect{|p| "#{p}.craigslist.org"},
       CraigScrape::GeoListings.find_sites(
         ["us","- us/fl", "+ us/fl/miami", ' -jacksonville.craigslist.org'], hier_dir
       )
     )
-    
+
   end
 
 end
