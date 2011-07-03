@@ -22,7 +22,7 @@ class CraigScrape::Listings < CraigScrape::Scraper
       @posts = []
 
       # All we care about are p and h4 tags. This seemed to be the only way I could do this on Nokogiri:
-      post_tags = html.search('*').reject{|n| !/^(?:p|h4)$/i.match n.name } 
+      post_tags = html.search('*').reject{|n| !/^(?:p|h4)$/i.match n.name }
 
       # The last p in the list is sometimes a 'next XXX pages' link. We don't want to include this in our PostSummary output:
       post_tags.pop if (
