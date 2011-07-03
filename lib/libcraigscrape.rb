@@ -5,8 +5,8 @@
 require 'rubygems'
 
 gem 'activesupport', '~> 2.3'
-gem 'nokogiri',      '~> 1.4.4'
-gem 'htmlentities',  '~> 4.0.0'
+gem 'nokogiri',      '>= 1.4.4'
+gem 'htmlentities',  '>= 4.0.0'
 
 
 require 'net/http'
