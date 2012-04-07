@@ -11,7 +11,7 @@ include FileUtils
 RbConfig = Config unless defined? RbConfig
 
 NAME = "olek-libcraigscrape"
-VERS = ENV['VERSION'] || "1.0.2"
+VERS = ENV['VERSION'] || "1.0.3"
 PKG = "#{NAME}-#{VERS}"
 
 RDOC_OPTS = ['--quiet', '--title', 'The libcraigscrape Reference', '--main', 'README', '--inline-source']
