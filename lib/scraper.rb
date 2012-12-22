@@ -35,6 +35,7 @@ class CraigScrape::Scraper
   HTTP_HEADERS = { "Cache-Control" => "no-cache", "Pragma" => "no-cache", 
     "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", 
     "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.168 Safari/535.19"}
+  CRAIGSLIST_TIMEOUT_PATTERN = /Time to perform request exceeded. *Please try again/
   
   # Returns the full url that corresponds to this resource
   attr_reader :url
@@ -133,12 +134,27 @@ class CraigScrape::Scraper
         File.read( File.directory?(uri.path) ? 
           "#{uri.path}/index.html" : uri.path , :encoding => 'BINARY')
       when /^http[s]?/
-        resp = Typhoeus.get uri.to_s, :followlocation =>  true, 
-          :headers => HTTP_HEADERS
-        resp.response_body
+        fetch_http_uri(uri)
       else
         raise BadUrlError, "Unknown URI scheme for the url: #{@url}"
     end).force_encoding("ISO-8859-1").encode("UTF-8")
+  end
+
+  def fetch_http_uri(uri, retry_on_error=true)
+    resp = Typhoeus.get uri.to_s, :followlocation =>  true, :headers => HTTP_HEADERS
+
+    resp.response_body.tap { |rtn|
+      raise FetchError, 'Craigslist timeout' if CRAIGSLIST_TIMEOUT_PATTERN.match rtn
+    }
+  rescue => e
+    if retry_on_error
+      logger.warn "Retrying fetching url %s because of: %s (%s)" %
+        [@url.inspect, e.class.name, e.message] if logger
+      retry_on_error = false
+      retry
+    else
+      raise e
+    end
   end
   
   # Returns a string, of the current URI's source code
