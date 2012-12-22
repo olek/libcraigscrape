@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.email       = 'info@derosetechnologies.com'
   s.files       = Dir['Rakefile', '{bin,lib,man,test,spec}/**/**/**', 'Gemfile', 'CHANGELOG','COPYING', 'COPYING.LESSER', 'README*', 'LICENSE*'] & `git ls-files -z`.split("\0")
   s.homepage    = 'http://www.derosetechnologies.com/community/libcraigscrape'
+  s.executables << 'craigwatch'
 
 
   s.add_dependency( 'htmlentities', ['~>4.3'] )
